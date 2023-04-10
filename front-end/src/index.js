@@ -19,21 +19,26 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Header from './components/Header';
-import HeatMap from './components/HeatMap';
-import Dashboard from './components/Dashboard';
+import SideDashboard from './components/SideDashboard';
 import './styles/main.css';
+import InteractiveMap from './components/InteractiveMap';
 
 function App() {
-  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState("LA");
 
   return (
-    <div>
-      <Header />
-      <HeatMap setSelectedDistrict={setSelectedDistrict} />
-      {selectedDistrict && <Dashboard selectedDistrict={selectedDistrict} />}
-      <div className="container">
-        
-        
+    <div className='container'>  
+      <div className='header'>
+        <Header />
+      </div >
+      <div className='content'>
+        <InteractiveMap
+          selectedDistrict={selectedDistrict}
+          setSelectedDistrict={setSelectedDistrict}
+        />
+        <SideDashboard 
+          selectedDistrict={selectedDistrict}
+        />
       </div>
     </div>
   );

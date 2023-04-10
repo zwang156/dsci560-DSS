@@ -1,6 +1,4 @@
-import React from 'react';
 import ReactEcharts from "echarts-for-react"
-import '../styles/Sider.css'
 
 const options = {
   grid: { top: 20, right: 40, bottom: 20, left: 40 },
@@ -14,7 +12,7 @@ const options = {
   series: [
     {
       data: [400, 300, 350, 200, 280],
-      type: "line",
+      type: "bar",
       smooth: true
     }
   ],
@@ -23,16 +21,13 @@ const options = {
   }
 }
 
-function LineChart({ district }) {
+function Chart() {
   return (
-    <div className='lineChart'>
-      {/* <h3>Line Chart for {`District ${district}`}</h3> */}
-      <ReactEcharts
-        option={options}
-        style={{ width: "100%", height: "100%" }}
-      ></ReactEcharts>
-    </div>
-  );
+    <ReactEcharts
+      option={options}
+      style={{ width: "100%", height: "100%" }}
+    ></ReactEcharts>
+  )
 }
 
-export default LineChart;
+export default Chart
