@@ -16,6 +16,17 @@ const DEFAULT = {
       data: [400, 300, 350, 200, 280],
       type: "line",
       smooth: true
+    },
+    {
+      name: "dawdaadw",
+      data: [34, 421, 424, 200, 76],
+      type: "line",
+      smooth: true
+    },
+    {
+      data: [368, 92, 321, 554, 98],
+      type: "line",
+      smooth: true
     }
   ],
   tooltip: {

@@ -1,16 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import MoreInfo from './MoreInfo';
-import { base } from '../utils/APIs';
+import { Recommendations_API } from '../utils/APIs';
 import '../styles/Sider.css'
 
 function Recommendations({ district }) {
   const [recommendations, setRecommendations] = useState([])
-  console.log(recommendations)
-
   // const sortedIndustries = recommendations.industries.sort((a, b) => a.rank - b.rank);
   useEffect(() => {
-    const url = base+'description?code=5411'
+    const url = Recommendations_API(5411)
     axios.get(url).then(res => {
       console.log(res)
       setRecommendations([res.data,res.data,res.data,res.data,res.data]);

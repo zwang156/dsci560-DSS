@@ -40,6 +40,26 @@ def recommandation():
     sqls = recommendation_sql(request.query_string)
     data0 = db.query(sqls[0]);
     data1 = db.query(sqls[1]);
+    fake_data = {
+        "recommandations": [
+            {"name": "auto",
+             "code": "5411",
+             "rank": 1},
+            {"name": "auto",
+             "code": "33234",
+             "rank": 2},
+            {"name": "auto",
+             "code": "7657",
+             "rank": 3},
+            {"name": "auto",
+             "code": "5411",
+             "rank": 4},
+            {"name": "auto",
+             "code": "796",
+             "rank": 5},
+        ]
+    }
+    return json.dumps(fake_data)
     return f"[{data0},{data1}]"
 
 @app.route("/active_data") #accept: {district: int}
@@ -48,13 +68,35 @@ def trend():
     data = db.query(sql)
     return json.dumps({
         "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
-        "5311": [1234, 1235, 2935, 1928, 1203, 1290],
-        "5411": [1234, 1200, 1150, 1400, 1202, 1290],
-        "722511": [2345,2456,2567,2134,2432,2222],
+        "industris": [
+            {"name": "auto",
+             "code": "5311",
+             "data": [1234, 1235, 2935, 1928, 1203, 1290]},
+            {"name": "auto",
+             "code": "5411",
+             "data": [1234, 1200, 1150, 1400, 1202, 1290]},
+            {"name": "auto",
+             "code": "5411",
+             "data": [2345,2456,2567,2134,2432,2222]},
+        ]
     })
 
 @app.route("/change_ratio") #accept: {district: int}
 def ratio():
+    return json.dumps({
+        "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
+        "industris": [
+            {"name": "auto",
+             "code": "5311",
+             "data": [0.12, 0.05, -0.1, 0.1, 0.15, 0.03]},
+            {"name": "auto",
+             "code": "5411",
+             "data": [0.04, 0.13, 0.01, -0.2, 0.1, 0.15]},
+            {"name": "auto",
+             "code": "5411",
+             "data": [0,0,0.02,0.03,-.01,-.5]},
+        ]
+    })
     return json.dumps({
         "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
         "5311": [0.12, 0.05, -0.1, 0.1, 0.15, 0.03],

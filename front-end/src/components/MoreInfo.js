@@ -33,7 +33,7 @@ function MoreInfo( { naics } ) {
     return (
       <>
         <p onClick={showModal}>
-          &nbsp;🔎
+          &nbsp;🔍
         </p>
         <Modal title={info.name} footer={null} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
           <img src={info.pic} className="App-logo" alt="logo" style={{ height: "100%", width: "100%" }}/>

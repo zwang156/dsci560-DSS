@@ -4,6 +4,7 @@ import Header from './components/Header';
 import SideDashboard from './components/SideDashboard';
 import InteractiveMap from './components/InteractiveMap';
 import './styles/main.css';
+// import HeatMap from './components/HeatMap';
 
 function App() {
   const [selectedDistrict, setSelectedDistrict] = useState("LA");
