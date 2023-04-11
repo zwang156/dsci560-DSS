@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'
 import { Modal } from 'antd';
-import { getIndustryInfo } from '../utils/APIs';
+import { base } from '../utils/APIs';
 
 function MoreInfo( { naics } ) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [info, setInfo] = useState({
+      "code": 12212323
+    })
     
     const showModal = () => {
       setIsModalOpen(true);
@@ -16,18 +20,24 @@ function MoreInfo( { naics } ) {
     const handleCancel = () => {
       setIsModalOpen(false);
     };
-    const info = getIndustryInfo(5414)
-    // console.log(info)
+
+    useEffect(() => {
+      const url = base+'description?code=' + naics
+      axios.get(url).then(res => {
+        // console.log(res)
+        setInfo(res.data);
+      })
+      
+    }, [naics])
   
     return (
       <>
         <p onClick={showModal}>
           &nbsp;🔎
         </p>
-        <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-          <p></p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+        <Modal title={info.name} footer={null} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <img src={info.pic} className="App-logo" alt="logo" style={{ height: "100%", width: "100%" }}/>
+          <p>{info.info}</p>
         </Modal>
       </>
     );

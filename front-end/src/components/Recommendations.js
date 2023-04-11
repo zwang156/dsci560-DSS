@@ -1,33 +1,30 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import MoreInfo from './MoreInfo';
+import { base } from '../utils/APIs';
 import '../styles/Sider.css'
 
 function Recommendations({ district }) {
-//   const recommendations = industriesData[district];
-  const recommendations = {
-    "industries" : [
-      {'name': 'health',
-        "rank": 8},
-      {'name': 'auto',
-        "rank": 2},
-      {'name': 'resturant',
-        "rank": 6},
-      {'name': 'sport',
-        "rank": 4},
-      {'name': 'shop',
-        "rank": 3},
-    ]
-  };
-  const sortedIndustries = recommendations.industries.sort((a, b) => a.rank - b.rank);
+  const [recommendations, setRecommendations] = useState([])
+  console.log(recommendations)
 
+  // const sortedIndustries = recommendations.industries.sort((a, b) => a.rank - b.rank);
+  useEffect(() => {
+    const url = base+'description?code=5411'
+    axios.get(url).then(res => {
+      console.log(res)
+      setRecommendations([res.data,res.data,res.data,res.data,res.data]);
+    })
+  }, [district])
+  
   return (
     <div className='recommendation'>
       <h3>Top 5 Industries Recommendations for startup:</h3>
       <ul>
-      {sortedIndustries.map(industry => {
+      {recommendations.map(industry => {
         return <div className='industry' >
-          <li>{`${industry.rank}. ${industry.name}`}</li>
-          <MoreInfo />
+          <li>{`${industry.code}. ${industry.name}`}</li>
+          <MoreInfo naics={industry.code}/>
         </div>
       })}
       </ul>
