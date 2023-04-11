@@ -1,6 +1,6 @@
 import React from 'react';
+import MoreInfo from './MoreInfo';
 import '../styles/Sider.css'
-// import industriesData from '../resource/industries.json';
 
 function Recommendations({ district }) {
 //   const recommendations = industriesData[district];
@@ -25,7 +25,10 @@ function Recommendations({ district }) {
       <h3>Top 5 Industries Recommendations for startup:</h3>
       <ul>
       {sortedIndustries.map(industry => {
-        return <li>{`${industry.rank}. ${industry.name}`}</li>
+        return <div className='industry' >
+          <li>{`${industry.rank}. ${industry.name}`}</li>
+          <MoreInfo />
+        </div>
       })}
       </ul>
     </div>

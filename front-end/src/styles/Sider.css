@@ -8,6 +8,11 @@
     width: 100%;
 }
 
+.industry {
+    display: flex;
+    cursor: pointer;
+}
+
 .lineChart {
     height: 30%;
     width: 100%;
