@@ -20,8 +20,11 @@ class DataBase:
         self.__is_alive = True
 
     def __del__(self):
-        if (self.__is_alive):
-            self.__conn.close()
+        try:
+            if (self.__is_alive):
+                self.__conn.close()
+        except Exception:
+            ...
 
     def __query(self, query_string: str, fetch_length: int = -1) -> Tuple[tuple]:
         try:
