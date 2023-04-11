@@ -5,9 +5,11 @@ import os
 import sys
 from query_handler import *
 from db_func import DataBase
+from flask_cors import CORS
 
 # create app
 app = Flask(__name__)
+CORS(app)
 
 # get database instance
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -51,7 +53,7 @@ def trend():
         "722511": [2345,2456,2567,2134,2432,2222],
     })
 
-@app.route("/change_ratio") #accept: {**kwargs: any}
+@app.route("/change_ratio") #accept: {district: int}
 def ratio():
     return json.dumps({
         "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
@@ -66,5 +68,5 @@ def node(): ...
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
     # removed before deploying a production app.
-    app.debug = True
+    # app.debug = True
     app.run()
