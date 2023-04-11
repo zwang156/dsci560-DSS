@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import './index.css';
 import { Modal } from 'antd';
+import { getIndustryInfo } from '../utils/APIs';
 
 function MoreInfo( { naics } ) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,14 +16,16 @@ function MoreInfo( { naics } ) {
     const handleCancel = () => {
       setIsModalOpen(false);
     };
+    const info = getIndustryInfo(5414)
+    // console.log(info)
   
     return (
       <>
         <p onClick={showModal}>
-          🔎
+          &nbsp;🔎
         </p>
         <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-          <p>Some contents...</p>
+          <p></p>
           <p>Some contents...</p>
           <p>Some contents...</p>
         </Modal>
