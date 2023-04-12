@@ -1,17 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import MoreInfo from './MoreInfo';
-import { Recommendations_API } from '../utils/APIs';
+import { API_Recommendations } from '../utils/APIs';
 import '../styles/Sider.css'
 
 function Recommendations({ district }) {
   const [recommendations, setRecommendations] = useState([])
   // const sortedIndustries = recommendations.industries.sort((a, b) => a.rank - b.rank);
   useEffect(() => {
-    const url = Recommendations_API(5411)
+    const url = API_Recommendations(district)
     axios.get(url).then(res => {
-      console.log(res)
-      setRecommendations([res.data,res.data,res.data,res.data,res.data]);
+      // console.log(res)
+      const recommands = res.data.recommandations
+      // console.log(recommands)
+      const sortedIndustries = recommands.sort((a, b) => a.rank - b.rank);
+      // console.log(sortedIndustries)
+      setRecommendations(sortedIndustries);
     })
   }, [district])
   
@@ -21,7 +25,7 @@ function Recommendations({ district }) {
       <ul>
       {recommendations.map(industry => {
         return <div className='industry' >
-          <li>{`${industry.code}. ${industry.name}`}</li>
+          <li>{`${industry.rank}. ${industry.name}`}</li>
           <MoreInfo naics={industry.code}/>
         </div>
       })}

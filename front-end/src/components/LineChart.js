@@ -1,63 +1,42 @@
 import React, { useState, useEffect }from 'react';
 import ReactEcharts from "echarts-for-react"
+import axios from 'axios';
+import { API_Change_Ratio } from '../utils/APIs';
 import '../styles/Sider.css'
 
-const DEFAULT = {
-  grid: { top: 20, right: 40, bottom: 20, left: 40 },
-  xAxis: {
-    type: "category",
-    data: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
-  },
-  yAxis: {
-    type: "value"
-  },
-  series: [
-    {
-      data: [400, 300, 350, 200, 280],
-      type: "line",
-      smooth: true
-    },
-    {
-      name: "dawdaadw",
-      data: [34, 421, 424, 200, 76],
-      type: "line",
-      smooth: true
-    },
-    {
-      data: [368, 92, 321, 554, 98],
-      type: "line",
-      smooth: true
-    }
-  ],
-  tooltip: {
-    trigger: "axis"
-  }
-}
-
 function LineChart({ district }) {
-  const [option, setOption] = useState(DEFAULT);
+
+  const [option, setOption] = useState({});
 
   useEffect(() => {
-    if (district !== "LA"){
+    axios.get(API_Change_Ratio(district)).then(res => {
+      console.log(res);
+      const data = res.data
       const newOption = {
         grid: { top: 20, right: 40, bottom: 20, left: 40 },
         xAxis: {
           type: "category",
-          data: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+          data: data.time
         },
         yAxis: {
           type: "value"
         },
-        series: [
-          {
-            data: [100*parseInt(district), 300, 350, 200*parseInt(district), 280],
+        series: data.industris.map( industris => {
+          return {
+            name: industris.name,
+            data: industris.data.map(value => {
+              const randomNum = Math.floor(Math.random() * 9) + 1; // generate a random number between 1 and 9
+              return value * randomNum; // multiply the data value by the random number
+            }),
             type: "line",
             smooth: true
           }
-        ]
+        })
       }
       setOption(newOption)
-    }
+    })
+      
+
   }, [district])
   return (
     <div className='lineChart'>
