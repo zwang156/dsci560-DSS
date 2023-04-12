@@ -17,7 +17,7 @@ def test_sql(query: bytes) -> str:
     cols = '*'
     table = 'test'
     where = '1'
-    return sql;
+    return sql.format(cols, table, where);
 
 def description_sql(query: bytes) -> str:
     query = extract_param(query)
