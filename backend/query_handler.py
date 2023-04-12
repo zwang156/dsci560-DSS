@@ -44,10 +44,12 @@ def trend_sql(query: bytes) -> str:
     return sql + where + order
 
 def trend_data_process(data: Data) -> str:
+    if not len(data.columns): return "[]"
     date = sorted(list(set(data["date"])))
     df = pd.DataFrame(data._Data__data, columns=data.columns)
     df = df.groupby(["code"]).agg(list).reset_index()
     data = Data(df.columns, df.values)
+    data.drop("date")
     return '{' + f''' "time": {date},
                       "industries": {data.json()} ''' +'}'
 

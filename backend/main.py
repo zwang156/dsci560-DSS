@@ -1,4 +1,5 @@
-from flask import Flask, request
+from email import message
+from flask import Flask, redirect, request, url_for, session
 import os
 import sys
 from query_handler import *
@@ -63,40 +64,20 @@ def trend():
     #         "industries": [
     #             {"name": "Lessors of Real Estate",
     #              "code": "5311",
-    #              "data": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "active": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "close": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "net_change": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "change_rate": [1234, 1235, 2935, 1928, 1203, 1290],
     #             },
     #             ...
     #         ],
     #     }
 
 
-@app.route("/change_ratio")
-# accept: {district: int, start: string("yyyy"| "yyyy/q")
-#                         end: string("yyyy"| "yyyy/q")}
-async def ratio():
+@app.route("/change_ratio") # refer to /active_data
+def ratio():
+    return redirect(url_for(".trend", **request.args));
 
-    return json.dumps(
-        {
-            "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
-            "industris": [
-                {
-                    "name": "Lessor of Real Estate",
-                    "code": "5311",
-                    "data": [0.12, 0.05, -0.1, 0.1, 0.15, 0.03],
-                },
-                {
-                    "name": "Legal Services",
-                    "code": "5411",
-                    "data": [0.04, 0.13, 0.01, -0.2, 0.1, 0.15],
-                },
-                {
-                    "name": "Full-service restaurants",
-                    "code": "722511",
-                    "data": [0, 0, 0.02, 0.03, -0.01, -0.5],
-                },
-            ],
-        }
-    )
 
 
 @app.route("/anynode")  # accept: {**kwargs: any}
