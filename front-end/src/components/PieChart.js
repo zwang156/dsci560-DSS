@@ -18,12 +18,19 @@ function PieChart({ district }) {
       })
       const newOption = {
         grid: { top: 20, right: 40, bottom: 20, left: 40 },
-        xAxis: {
-              type: "category",
-              data: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
-            },
-        yAxis: {
-          type: "value"
+        legend: {
+          type: 'scroll',
+          orient: 'vertical',
+          right: 10,
+          top: 20,
+          bottom: 20,
+          data: pie_data.map( item => {
+            return item.name
+          })
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         series: {
           name: "industries",
@@ -62,7 +69,7 @@ function PieChart({ district }) {
       {/* <h3>Pie Chart for {`District ${district}`}</h3> */}
       <ReactEcharts
         option={option}
-        style={{ width: "100%", height: "100%" }}
+        // style={{ width: "100%", height: "100%" }}
       ></ReactEcharts>
     </div>
   );
