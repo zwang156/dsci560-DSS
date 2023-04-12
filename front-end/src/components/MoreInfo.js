@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { Modal } from 'antd';
-import { base } from '../utils/APIs';
+import { API_IndustryInfo } from '../utils/APIs';
 
 function MoreInfo( { naics } ) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,6 +11,12 @@ function MoreInfo( { naics } ) {
     
     const showModal = () => {
       setIsModalOpen(true);
+      const url = API_IndustryInfo(naics)
+      axios.get(url).then(res => {
+        // console.log(res)
+        setInfo(res.data);
+      })
+
     };
   
     const handleOk = () => {
@@ -20,15 +26,14 @@ function MoreInfo( { naics } ) {
     const handleCancel = () => {
       setIsModalOpen(false);
     };
-
-    useEffect(() => {
-      const url = base+'description?code=' + naics
-      axios.get(url).then(res => {
-        // console.log(res)
-        setInfo(res.data);
-      })
-      
-    }, [naics])
+    // 访问太快 后端撑不住哈哈哈哈哈
+    // useEffect(() => {
+    //   const url = base+'description?code=' + naics
+    //   axios.get(url).then(res => {
+    //     console.log(res)
+    //     setInfo(res.data);
+    //   })    
+    // }, [naics])
   
     return (
       <>

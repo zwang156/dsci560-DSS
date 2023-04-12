@@ -41,9 +41,6 @@ def description():
 
 @app.route("/recommandation")  # accept: {district: int}
 def recommandation():
-    sqls = recommendation_sql(request.query_string)
-    data0 = db.query(sqls[0])
-    data1 = db.query(sqls[1])
     fake_data = {
         "recommandations": [
             {"name": "Legal services", "code": "5411", "rank": 1},
@@ -55,11 +52,15 @@ def recommandation():
     }
     return json.dumps(fake_data)
 
+    sqls = recommendation_sql(request.query_string)
+    data0 = db.query(sqls[0])
+    data1 = db.query(sqls[1])
+    
+
 
 @app.route("/active_data")  # accept: {district: int}
 def trend():
-    sql = "select industry_code, date, active_count from industry order by date, active_count where district="
-    data = db.query(sql)
+    
     return json.dumps(
         {
             "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
@@ -80,6 +81,8 @@ def trend():
             ],
         }
     )
+    sql = "select industry_code, date, active_count from industry order by date, active_count where district="
+    data = db.query(sql)
 
 
 @app.route("/change_ratio")  # accept: {district: int}
