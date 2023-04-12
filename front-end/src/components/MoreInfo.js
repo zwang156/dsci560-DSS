@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'
 import { Modal } from 'antd';
 import { API_IndustryInfo } from '../utils/APIs';
 
 function MoreInfo( { naics } ) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [info, setInfo] = useState({
-      "code": 12212323
-    })
+    const [info, setInfo] = useState({})
     
     const showModal = () => {
       setIsModalOpen(true);

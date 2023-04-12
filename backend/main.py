@@ -19,20 +19,19 @@ db = DataBase(**login_info)
 
 
 @app.route("/")
-async def root():
-    return """<div> Root Page </div>
-            """
+def root():
+    return "<div> Root Page </div>"
 
 
 @app.route("/test")  # accept: {**kwargs: Any}
-async def test():
+def test():
     sql = test_sql(request.query_string)
     data = db.query(sql)
     return data.json()
 
 
 @app.route("/description")  # accept: {code: int}
-async def description():
+def description():
     sql = description_sql(request.query_string)
     data = db.query(sql)
     return data.json()
@@ -101,7 +100,7 @@ async def ratio():
 
 
 @app.route("/anynode")  # accept: {**kwargs: any}
-async def node():
+def node():
     ...
 
 
