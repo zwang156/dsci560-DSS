@@ -52,7 +52,7 @@ class Data:
             self.columns.pop(i)
         for line in self.__data:
             for i in indices:
-                self.__data.pop(i)
+                line.pop(i)
 
     def rename(self, col:str, new_name:str):
         idx = self.columns.index(col)

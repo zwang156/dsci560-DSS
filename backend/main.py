@@ -79,7 +79,6 @@ def ratio():
     return redirect(url_for(".trend", **request.args));
 
 
-
 @app.route("/anynode")  # accept: {**kwargs: any}
 def node():
     ...
