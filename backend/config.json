@@ -1,0 +1,7 @@
+{
+    "host": "117.50.35.103",
+    "user":"watchdog",
+    "password":"watchdog",
+    "database":"ds560",
+    "port":3306
+}

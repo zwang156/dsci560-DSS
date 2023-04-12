@@ -1,0 +1,24 @@
+.sider-container {
+    height: 100%;
+    width: 30%;
+}
+
+.recommendation {
+    height: 25%;
+    width: 100%;
+}
+
+.industry {
+    display: flex;
+    cursor: pointer;
+}
+
+.lineChart {
+    height: 30%;
+    width: 100%;
+}
+
+.pieChart {
+    height: 30%;
+    width: 100%;
+}
