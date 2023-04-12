@@ -1,5 +1,5 @@
 from typing import Tuple, Union, overload, List, Iterable
-import json
+import simplejson as json
 from copy import copy, deepcopy
 
 class Data:
@@ -10,12 +10,21 @@ class Data:
         self.columns = list(header)
         self.__data = [list(dt) for dt in data]
 
-    def __getitem__(self, key: slice):
+    @overload
+    def __getitem__(self, col:str): ...
+    @overload
+    def __getitem__(self, index: Union[slice,int]): ...
+
+    def __getitem__(self, key: Union[slice,int]):
         # col_index = self.columns.index(col)
-        if isinstance(key, slice):
-            return Data(copy(self.columns), deepcopy(self.__data.__getitem__(key)))
+        if (not isinstance(key, str)):
+            if isinstance(key, slice):
+                return Data(copy(self.columns), deepcopy(self.__data.__getitem__(key)))
+            else:
+                return self.__data[key]
         else:
-            return self.__data[key]
+            idx = self.columns.index(key)
+            return [line[idx] for line in self.__data]
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -44,6 +53,10 @@ class Data:
         for line in self.__data:
             for i in indices:
                 self.__data.pop(i)
+
+    def rename(self, col:str, new_name:str):
+        idx = self.columns.index(col)
+        self.columns[idx] = new_name
 
     @overload
     def append(self, col_name: str, col: Iterable):
@@ -81,7 +94,8 @@ class Data:
         Returns:
             str: string in Json format.
         """
-        data = [dict(zip(self.columns, record)) for record in self.__data]
+        data = [dict(zip(self.columns,
+                record)) for record in self.__data]
         if (len(data)==1): return json.dumps(data[0])
         else: return json.dumps(data)
         # return json.dumps(data if len(data)>1 or not len(data) else data[0])
