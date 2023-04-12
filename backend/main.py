@@ -21,19 +21,19 @@ db = DataBase(**login_info)
 
 
 @app.route("/")
-async def root():
+def root():
     return "<div> Root Page </div>"
 
 
 @app.route("/test")  # accept: {**kwargs: Any}
-async def test():
+def test():
     sql = test_sql(request.query_string)
     data = db.query(sql)
     return data.json()
 
 
 @app.route("/description")  # accept: {code: int}
-async def description():
+def description():
     sql = description_sql(request.query_string)
     data = db.query(sql)
     return data.json()
@@ -55,12 +55,12 @@ def recommandation():
     sqls = recommendation_sql(request.query_string)
     data0 = db.query(sqls[0])
     data1 = db.query(sqls[1])
-
+    
 
 
 @app.route("/active_data")  # accept: {district: int}
 def trend():
-
+    
     return json.dumps(
         {
             "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
@@ -86,7 +86,7 @@ def trend():
 
 
 @app.route("/change_ratio")  # accept: {district: int}
-async def ratio():
+def ratio():
     return json.dumps(
         {
             "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
@@ -112,7 +112,7 @@ async def ratio():
 
 
 @app.route("/anynode")  # accept: {**kwargs: any}
-async def node():
+def node():
     ...
 
 
