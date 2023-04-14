@@ -6,6 +6,7 @@ from query_handler import *
 from db_func import DataBase
 from flask_cors import CORS
 
+
 # create app
 app = Flask(__name__)
 CORS(app)
@@ -17,8 +18,6 @@ with open("./config.json") as f:
 db = DataBase(**login_info)
 
 # define api nodes
-
-
 @app.route("/")
 def root():
     return "<div> Root Page </div>"
@@ -78,6 +77,10 @@ def trend():
 def ratio():
     return redirect(url_for(".trend", **request.args));
 
+
+@app.route("/economic")
+def eco():
+    return
 
 @app.route("/anynode")  # accept: {**kwargs: any}
 def node():

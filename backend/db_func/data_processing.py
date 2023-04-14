@@ -55,8 +55,11 @@ class Data:
                 line.pop(i)
 
     def rename(self, col:str, new_name:str):
-        idx = self.columns.index(col)
-        self.columns[idx] = new_name
+        try:
+            idx = self.columns.index(col)
+            self.columns[idx] = new_name
+        except Exception:
+            print("Warning: rename failed. ")
 
     @overload
     def append(self, col_name: str, col: Iterable):

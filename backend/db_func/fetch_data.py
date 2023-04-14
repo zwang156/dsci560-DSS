@@ -2,11 +2,13 @@ from typing import Tuple, Union
 import pymysql
 from sympy import false
 from .data_processing import Data
+from multiprocessing import Lock
 
 class DataBase:
 #private:
     __last_status = 0;
     __is_alive = False;
+    lock = Lock()
 
     def __init__(self, host, user, password, database, port):
         self.__conn = pymysql.connect(
@@ -41,9 +43,11 @@ class DataBase:
 
 #public:
     def query(self, query_string: str, fetch_length: int=-1) -> Data:
+        self.lock.acquire()
         data = self.__query(query_string, fetch_length)
         if (not self.__cursor.description): header = ()
         else: header = [i[0] for i in self.__cursor.description]
+        self.lock.release()
         return Data(header, data)
 
     def close_conn(self) -> None:
