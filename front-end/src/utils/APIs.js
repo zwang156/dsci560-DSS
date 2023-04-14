@@ -19,3 +19,4 @@ export function API_Change_Ratio (district, from, to ) {
 }
 
 // openAPI
+export const OPENAI_API_KEY = "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"
