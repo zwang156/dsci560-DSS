@@ -45,7 +45,9 @@ def recommandation():
     data.append("rank", range(1, 6))
     return '{"recommandations": ' + data.json() + "}"
     # {"recommandations": [
-    #    {"name": string, "code": int, "ratio": float, "net_increase" "rank": int},
+    #    {"name": string,
+    #     "code": int,
+    #     "ratio": float, "net_increase" "rank": int},
     #    ...
     # ]}
 
@@ -67,6 +69,7 @@ def trend():
     #              "close": [1234, 1235, 2935, 1928, 1203, 1290],
     #              "net_change": [1234, 1235, 2935, 1928, 1203, 1290],
     #              "change_rate": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "rank": int,
     #             },
     #             ...
     #         ],
