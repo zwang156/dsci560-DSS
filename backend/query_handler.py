@@ -30,6 +30,12 @@ def description_sql(query: bytes) -> str:
 
 def recommendation_sql(query: bytes) -> str:
     if ('district' not in query): return ";"
+    elif (query["district"]=='LA'): return f"""
+        select name, predict.code, sum(net_increase) AS net_increase, sum(net_increase)/sum(`value`)*100  AS increase_ratio
+        from (predict right JOIN industry on predict.code = industry.code)
+        GROUP BY predict.code, name
+        ORDER BY increase_ratio desc limit 5
+        """
     else: return f"select name, predict.code, net_increase, increase_ratio   \
         from (predict right JOIN industry on predict.code = industry.code)  \
         where district={query['district']} \
@@ -51,7 +57,7 @@ def trend_data_process(data: Data) -> str:
     df = df.groupby(["code"]).agg(list).reset_index()
     data = Data(df.columns, df.values)
     data.drop("date")
-    return '{' + f''' "time": {date},
+    return '{' + f''' "time": {json.dumps(date)},
                       "industries": {data.json()} ''' +'}'
 
 def api_node_sql_2(query: bytes) -> str: ...

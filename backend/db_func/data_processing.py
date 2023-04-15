@@ -100,9 +100,7 @@ class Data:
         data = [dict(zip(self.columns,
                 record)) for record in self.__data]
         if (len(data)==1): return json.dumps(data[0])
-        else: return json.dumps(data).replace("'",'"')
-        # return json.dumps(data if len(data)>1 or not len(data) else data[0])
-
+        else: return json.dumps(data)
 
 if __name__ == "__main__":
     obj = Data(('h','e'),((1,2), (2,3), (3,4)))
