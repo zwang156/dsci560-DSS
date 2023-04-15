@@ -8,26 +8,26 @@ function PieChart({ district }) {
   const [option, setOption] = useState({});
   useEffect(() => {
     axios.get(API_Active_Business(district)).then(res => {
-      console.log(res);
+      // console.log(res);
       const data = res.data
-      const pie_data = data.industris.map( item => {
+      const pie_data = data.industries.map( item => {
         return {
-          name: item.name,
-          value: item.data[0] * Math.floor(Math.random() * 9) + 1,
+          name: item.code,
+          value: item.active.slice(-1)[0],
         }
       })
       const newOption = {
         grid: { top: 20, right: 40, bottom: 20, left: 40 },
-        legend: {
-          type: 'scroll',
-          orient: 'vertical',
-          right: 10,
-          top: 20,
-          bottom: 20,
-          data: pie_data.map( item => {
-            return item.name
-          })
-        },
+        // legend: {
+        //   type: 'scroll',
+        //   orient: 'vertical',
+        //   right: 10,
+        //   top: 20,
+        //   bottom: 20,
+        //   data: pie_data.map( i => {
+        //     return i.name
+        //   })
+        // },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -41,28 +41,7 @@ function PieChart({ district }) {
       }
       setOption(newOption)
     })
-      // const newOption = {
-      //   grid: { top: 20, right: 40, bottom: 20, left: 40 },
-      //   xAxis: {
-      //     type: "category",
-      //     data: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
-      //   },
-      //   yAxis: {
-      //     type: "value"
-      //   },
-      //   series: [
-      //     {
-      //       data: [100*parseInt(district), 300, 350, 200, 280],
-      //       type: "pie",
-      //       smooth: true
-      //     }
-      //   ]
-      // }
-    
   }, [district])
-  
-  
-  
   
   return (
     <div className='pieChart'>

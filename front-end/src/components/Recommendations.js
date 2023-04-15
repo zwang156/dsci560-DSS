@@ -10,7 +10,7 @@ function Recommendations({ district }) {
   useEffect(() => {
     const url = API_Recommendations(district)
     axios.get(url).then(res => {
-      // console.log(res)
+      console.log(res)
       const recommands = res.data.recommandations
       // console.log(recommands)
       const sortedIndustries = recommands.sort((a, b) => a.rank - b.rank);
@@ -24,8 +24,8 @@ function Recommendations({ district }) {
       <h3>Top 5 Industries Recommendations for startup:</h3>
       <ul>
       {recommendations.map(industry => {
-        return <div className='industry' >
-          <li>{`${industry.rank}. ${industry.name}`}</li>
+        return <div className='industry' key={industry.rank}>
+          <li >{`${industry.rank}. ${industry.name}`}</li>
           <MoreInfo naics={industry.code}/>
         </div>
       })}

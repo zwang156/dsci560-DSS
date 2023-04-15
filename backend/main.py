@@ -1,11 +1,11 @@
-import json
-import flask
-from flask import Flask, request
+from email import message
+from flask import Flask, redirect, request, url_for, session
 import os
 import sys
 from query_handler import *
 from db_func import DataBase
 from flask_cors import CORS
+
 
 # create app
 app = Flask(__name__)
@@ -18,22 +18,20 @@ with open("./config.json") as f:
 db = DataBase(**login_info)
 
 # define api nodes
-
-
 @app.route("/")
-async def root():
+def root():
     return "<div> Root Page </div>"
 
 
 @app.route("/test")  # accept: {**kwargs: Any}
-async def test():
+def test():
     sql = test_sql(request.query_string)
     data = db.query(sql)
     return data.json()
 
 
 @app.route("/description")  # accept: {code: int}
-async def description():
+def description():
     sql = description_sql(request.query_string)
     data = db.query(sql)
     return data.json()
@@ -41,78 +39,54 @@ async def description():
 
 @app.route("/recommandation")  # accept: {district: int}
 def recommandation():
-    fake_data = {
-        "recommandations": [
-            {"name": "Legal services", "code": "5411", "rank": 1},
-            {"name": "Full-service restaurants", "code": "722511", "rank": 2},
-            {"name": "Educational services", "code": "611", "rank": 3},
-            {"name": "Offices of physicians", "code": "621111", "rank": 4},
-            {"name": "Advertising & related services", "code": "5418", "rank": 5},
-        ]
-    }
-    return json.dumps(fake_data)
-
-    sqls = recommendation_sql(request.query_string)
-    data0 = db.query(sqls[0])
-    data1 = db.query(sqls[1])
-
-
-
-@app.route("/active_data")  # accept: {district: int}
-def trend():
-
-    return json.dumps(
-        {
-            "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
-            "industris": [
-                {"name": "Lessors of Real Estate",
-                 "code": "5311",
-                 "data": [1234, 1235, 2935, 1928, 1203, 1290],
-                },
-                {"name": "Legal services",
-                 "code": "5411",
-                 "data": [1234, 1200, 1150, 1400, 1202, 1290],
-                },
-                {
-                    "name": "Full-service restaurants",
-                    "code": "722511",
-                    "data": [2345, 2456, 2567, 2134, 2432, 2222],
-                },
-            ],
-        }
-    )
-    sql = "select industry_code, date, active_count from industry order by date, active_count where district="
+    sql = recommendation_sql(request.args)
     data = db.query(sql)
+    data.rename("increase_ratio", "ratio")
+    data.append("rank", range(1, 6))
+    return '{"recommandations": ' + data.json() + "}"
+    # {"recommandations": [
+    #    {"name": string,
+    #     "code": int,
+    #     "ratio": float, "net_increase" "rank": int},
+    #    ...
+    # ]}
 
 
-@app.route("/change_ratio")  # accept: {district: int}
-async def ratio():
-    return json.dumps(
-        {
-            "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
-            "industris": [
-                {
-                    "name": "Lessor of Real Estate",
-                    "code": "5311",
-                    "data": [0.12, 0.05, -0.1, 0.1, 0.15, 0.03],
-                },
-                {
-                    "name": "Legal Services",
-                    "code": "5411",
-                    "data": [0.04, 0.13, 0.01, -0.2, 0.1, 0.15],
-                },
-                {
-                    "name": "Full-service restaurants",
-                    "code": "722511",
-                    "data": [0, 0, 0.02, 0.03, -0.01, -0.5],
-                },
-            ],
-        }
-    )
+@app.route("/active_data")
+# accept: {district: int, start: optional("yyyy"| "yyyy/q" | undefined),
+#                         end: option("yyyy"| "yyyy/q" | undefined)}
+# url = domain/active_data?district=1&startTime=2015%2F1&endTime=2018%2F2
+def trend():
+    sql = trend_sql(request.args)
+    data = db.query(sql)
+    return trend_data_process(data)
+    #    {
+    #         "time": ["2015/01", "2015/02", "2015/03", "2015/04", "2016/01", "2016/02"],
+    #         "industries": [
+    #             {"name": "Lessors of Real Estate",
+    #              "code": "5311",
+    #              "active": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "close": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "net_change": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "change_rate": [1234, 1235, 2935, 1928, 1203, 1290],
+    #              "rank": int,
+    #             },
+    #             ...
+    #         ],
+    #     }
 
+
+@app.route("/change_ratio") # refer to /active_data
+def ratio():
+    return redirect(url_for(".trend", **request.args));
+
+
+@app.route("/economic")
+def eco():
+    return
 
 @app.route("/anynode")  # accept: {**kwargs: any}
-async def node():
+def node():
     ...
 
 

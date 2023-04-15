@@ -1,30 +1,23 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import Header from './components/Header';
-import SideDashboard from './components/SideDashboard';
-import InteractiveMap from './components/InteractiveMap';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter , Routes, Route } from 'react-router-dom'
+import MapPage from './pages/MapPage';
+import Welcome from './pages/WelcomePage';
+import ChatGPT from './components/ChatGPT';
 import './styles/main.css';
-// import HeatMap from './components/HeatMap';
 
 function App() {
   const [selectedDistrict, setSelectedDistrict] = useState("LA");
-
   return (
-    <div className='container'>  
-      <div className='header'>
-        <Header />
-      </div >
-      <div className='content'>
-        <InteractiveMap
-          selectedDistrict={selectedDistrict}
-          setSelectedDistrict={setSelectedDistrict}
-        />
-        <SideDashboard 
-          selectedDistrict={selectedDistrict}
-        />
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={ <Welcome /> }/>
+          <Route path="/map" element={ <MapPage
+                                          selectedDistrict={selectedDistrict}
+                                          setSelectedDistrict={setSelectedDistrict}/> }/>
+          <Route path="/chat" element={ChatGPT} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-ReactDOM.render(<App />, document.getElementById('root'));
+createRoot(document.getElementById('root')).render(<App />);
