@@ -24,8 +24,8 @@ function Recommendations({ district }) {
       <h3>Top 5 Industries Recommendations for startup:</h3>
       <ul>
       {recommendations.map(industry => {
-        return <div className='industry' >
-          <li>{`${industry.rank}. ${industry.name}`}</li>
+        return <div className='industry' key={industry.rank}>
+          <li >{`${industry.rank}. ${industry.name}`}</li>
           <MoreInfo naics={industry.code}/>
         </div>
       })}
